@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Checkout - ANIMAL CAPS</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { font-family: sans-serif; background:#f4f4f6; }
+    .wrap { max-width: 900px; margin: 40px auto; display:grid; grid-template-columns: 1fr 1fr; gap:24px; }
+    .summary, .checkout { background:#fff; padding:20px; border-radius:10px; box-shadow:0 6px 20px rgba(0,0,0,.08); }
+    .summary h3, .checkout h3{ margin-top:0; }
+    .sum-row{ display:flex; align-items:center; gap:12px; padding:8px 0; border-bottom:1px solid #eee; }
+    .sum-row img{ width:64px; height:64px; object-fit:cover; border-radius:8px; }
+    .sum-row .grow{ flex:1; }
+    .sum-row .price{ font-weight:700; }
+    .total{ text-align:right; font-size:18px; margin-top:10px; }
+    label{ display:block; margin-top:10px; font-weight:600; }
+    input{ width:100%; padding:10px; border:1px solid #ddd; border-radius:6px; margin-top:4px; }
+    button.pay{ margin-top:16px; width:100%; padding:12px; border:none; background:#000; color:#fff; border-radius:6px; cursor:pointer; }
+  </style>
+  <script src="products.js" defer></script>
+  <script src="cart.js" defer></script>
+  <script>
+    function renderSummary(){
+      const holder = document.getElementById('summary');
+      const cart = JSON.parse(localStorage.getItem('cart')||'[]');
+      if(cart.length===0){ holder.innerHTML='<p>No hay productos.</p>'; return; }
+      let total = 0;
+      holder.innerHTML = cart.map(x=>{ total += x.precio*x.qty; return `
+        <div class='sum-row'>
+          <img src='${x.img}' alt='${x.nombre}' />
+          <div class='grow'>
+            <div>${x.nombre}</div>
+            <div>Cantidad: ${x.qty}</div>
+          </div>
+          <div class='price'>$${x.precio*x.qty}</div>
+        </div>`; }).join('') + `<div class='total'>Total: $${total}</div>`;
+    }
+    function finalizePurchase(e){
+      e.preventDefault();
+      localStorage.removeItem('cart');
+      document.querySelector('.wrap').innerHTML = "<div class='checkout'><h2>¡Gracias por tu compra!</h2><p>Hemos enviado el comprobante a tu correo.</p><a class='btn' href='index.html'>Volver al inicio</a></div>";
+    }
+    window.addEventListener('DOMContentLoaded', renderSummary);
+  </script>
+</head>
+<body>
+  <nav class="nav" id="nav">
+    <div class="logo"><a href="index.html">ANIMAL CAPS</a></div>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="index.html#productos">Productos</a></li>
+      <li><a href="test.html">Test</a></li>
+      <li><a href="cart.html">Tu carrito</a></li>
+    </ul>
+  </nav>
+  <div class="wrap">
+    <div class="summary">
+      <h3>Resumen</h3>
+      <div id="summary"></div>
+    </div>
+    <div class="checkout">
+      <h3>Datos de pago</h3>
+      <form onsubmit="finalizePurchase(event)">
+        <label>Nombre completo
+          <input type="text" required>
+        </label>
+        <label>Email
+          <input type="email" required>
+        </label>
+        <label>Dirección de envío
+          <input type="text" required>
+        </label>
+        <label>Número de tarjeta
+          <input type="text" maxlength="16" required>
+        </label>
+        <label>Fecha de expiración
+          <input type="text" placeholder="MM/AA" required>
+        </label>
+        <label>CVV
+          <input type="text" maxlength="3" required>
+        </label>
+        <button class="pay" type="submit">Pagar</button>
+      </form>
+    </div>
+  </div>
+
+<script>
+// Render cart summary on checkout page and handle payment form
+(function(){
+  const cart = JSON.parse(localStorage.getItem('cart')||'[]');
+  const summaryEl = document.getElementById('orderSummary');
+  const totalEl = document.getElementById('orderTotal');
+  const form = document.getElementById('paymentForm');
+  if(summaryEl){
+    if(cart.length===0){
+      summaryEl.innerHTML = '<p>Tu carrito está vacío. <a href="index.html#productos" class="btn">Ir a productos</a></p>';
+      totalEl.textContent = '$0';
+    } else {
+      let total = 0;
+      summaryEl.innerHTML = cart.map(i=>{
+        total += i.precio * i.qty;
+        return `<div class="sum-row"><img src="${i.img}" /><div class="grow"><div>${i.nombre}</div><div class="muted">x${i.qty}</div></div><div class="price">$${i.precio * i.qty}</div></div>`;
+      }).join('');
+      totalEl.textContent = '$' + total;
+    }
+  }
+  if(form){
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      if(cart.length===0){ alert('Tu carrito está vacío.'); return; }
+      // Simular éxito de pago: limpiar carrito y mostrar página de éxito
+      localStorage.removeItem('cart');
+      // Pasar ids comprados para posible uso en result.html (query param)
+      const ids = cart.map(i=>i.id).join(',');
+      location.href = 'result.html?id=' + encodeURIComponent(ids.split(',')[0] || '');
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

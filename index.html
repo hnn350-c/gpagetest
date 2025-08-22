@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ANIMAL CAPS — Inicio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Unica+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Splash -->
+  <div id="splash"><div class="brand-glow">ANIMAL CAPS</div></div>
+
+  <!-- Navbar -->
+  <nav class="nav" id="nav">
+    <div class="logo"><a href="index.html">ANIMAL CAPS</a></div>
+    <ul>
+      <li><a href="index.html#inicio">Inicio</a></li>
+      <li><a href="test.html">Test</a></li>
+      <li><a href="index.html#productos">Productos</a></li>
+      <li><a href="cart.html">Carrito</a></li>
+      <li><a href="index.html#contacto">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero" id="inicio">
+    <div class="hero-inner">
+      <div class="eyebrow">IDENTIDAD • INSTINTO • ESTILO</div>
+      <h1>Descubre tu animal</h1>
+      <p>Un test. Un resultado. Una gorra que te representa. Minimalismo oscuro con contraste blanco.</p>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <a class="btn primary" href="test.html">Hacer test</a>
+        <a class="btn" href="#productos">Ver productos</a>
+      </div>
+    </div>
+    <div class="scroll-cue">desliza ↓</div>
+  </header>
+
+  <!-- Productos -->
+  <section id="productos" class="reveal">
+    <div class="container">
+      <h2>Nuestras Gorras</h2>
+      <div id="gridProductos" class="grid" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- Contacto -->
+  <section id="contacto" class="reveal">
+    <div class="container" style="text-align:center">
+      <h2 style="font-family:'Unica One',sans-serif;letter-spacing:.2em;margin-bottom:10px">Contacto</h2>
+      <p class="muted" style="color:#cfcfcf">
+        Escríbenos a <a href="mailto:hola@animalcaps.mx" style="color:#fff">hola@animalcaps.mx</a>
+      </p>
+    </div>
+  </section>
+
+  <footer>© <span id="year"></span> ANIMAL CAPS. Todos los derechos reservados.</footer>
+
+  <!-- Scripts -->
+  <script src="products.js"></script>
+  <script src="cart.js"></script>
+  <script src="app.js"></script>
+  <script src="splash.js" defer></script>
+</body>
+</html>
